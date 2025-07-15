@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Commander {{ livre.titre }}</title>
+    <link rel="stylesheet" href="{% static 'css/style3.css' %}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Commander : {{ livre.titre }}</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Valider la commande</button>
+        </form>
+    </div>
+</body>
+
+</html>

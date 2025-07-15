@@ -1,0 +1,41 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.card-title {
+    font-size: 1.2rem;
+}
+
+.card-text {
+    font-size: 0.95rem;
+}
+
+.carree {
+    border-radius: 1.2rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.carree:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+
+
+h2, h3 {
+    color: #0b2536;
+}
+
+/* Pagination */
+.pagination .page-item .page-link {
+    border-radius: 50%;
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #2e7d32;
+    border-color: #2e7d32;
+    color: white;
+}
+
