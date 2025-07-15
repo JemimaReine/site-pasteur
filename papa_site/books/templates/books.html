@@ -1,0 +1,324 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Livres du Pasteur</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'css/books.css' %}" rel="stylesheet">
+    <link href="{% static 'css/home.css' %}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto&display=swap"
+        rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        h2,
+        h5 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .navbar-custom {
+            background-color: #0d6efd;
+        }
+
+        .navbar-custom .nav-link,
+        .navbar-custom .navbar-brand {
+            color: white;
+        }
+
+        .navbar-custom .nav-link.active {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+
+        .bio-section {
+            background: linear-gradient(135deg, #e0f2f1, #ffffff);
+            border-radius: 20px;
+        }
+
+        .bio-title {
+            color: #14532d;
+            font-weight: bold;
+        }
+
+        .card-title {
+            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .resume.court {
+            max-height: 70px;
+            overflow: hidden;
+        }
+
+        .resume.expand {
+            max-height: none;
+        }
+
+        .btn-voir-plus {
+            font-size: 0.9rem;
+        }
+
+        .custom-footer {
+            background-color: #198754;
+            color: white;
+        }
+
+        .custom-footer a {
+            color: #fff;
+        }
+
+        .btn-commander,
+        .btn-primary {
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">Becken De Gnaman-Dies</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a
+                            class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+                            href="{% url 'home' %}">Accueil</a></li>
+                    <li class="nav-item"><a
+                            class="nav-link {% if request.resolver_match.url_name == 'books' %}active{% endif %}"
+                            href="{% url 'books' %}">Livres</a></li>
+                    <li class="nav-item"><a
+                            class="nav-link {% if request.resolver_match.url_name == 'citations' %}active{% endif %}"
+                            href="{% url 'citations' %}">Citations</a></li>
+                    <li class="nav-item"><a
+                            class="nav-link {% if request.resolver_match.url_name == 'contacts' %}active{% endif %}"
+                            href="{% url 'contacts' %}">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <br>
+
+<!-- BIOGRAPHIE -->
+<section class="bio-section py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <span class="bio-label">BIOGRAPHIE</span>
+                <h2 class="bio-title">À propos de moi</h2>
+                <p class="bio-text" id="bio-short">{{ pasteur.bio|truncatechars:300 }}</p>
+                <p class="bio-text d-none mt-3" id="bio-full">{{ pasteur.bio }}</p>
+                <button id="toggleBioBtn" class="btn btn-dark rounded-pill px-4 mt-3" onclick="toggleBio()">Lire la
+                    suite</button>
+            </div>
+            {% if pasteur.photo %}
+            <div class="col-lg-6 text-center mt-4 mt-lg-0">
+                <div class="bio-image-wrapper">
+                    <img src="{{ pasteur.photo.url }}" alt="Photo du pasteur" class="img-fluid rounded-4 shadow">
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+
+
+    <!-- LIVRES -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center fw-bold mb-5">LES LIVRES DU PASTEURS</h2>
+            <div class="row g-4">
+                {% for livre in livres %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0 rounded-4">
+                        {% if livre.couverture %}
+                        <img src="{{ livre.couverture.url }}" class="card-img-top rounded-top-4" height="500px"
+                            alt="Couverture {{ livre.titre }}">
+                        {% else %}
+                        <img src="{% static 'images/bible.jpg' %}" class="card-img-top" alt="Couverture par défaut">
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ livre.titre }}</h5>
+                            <p class="card-text resume court">{{ livre.resume }}</p>
+                            <button class="btn btn-link p-0 text-primary btn-voir-plus align-self-start"
+                                onclick="toggleResume(this)">Voir plus</button>
+                            <p class="mt-2 fw-bold text-success">{{ livre.prix }} FCFA</p>
+                            <div class="mt-auto d-flex gap-2">
+                                <button class="btn btn-success flex-fill btn-commander" data-livre-id="{{ livre.id }}"
+                                    data-livre-titre="{{ livre.titre }}">Commander</button>
+                                <button class="btn btn-primary flex-fill">Télécharger PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>Aucun livre disponible pour le moment.</p>
+                {% endfor %}
+            </div>
+
+            {% if livres.has_other_pages %}
+            <nav aria-label="Pagination" class="mt-5">
+                <ul class="pagination justify-content-center">
+                    {% if livres.has_previous %}
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ livres.previous_page_number }}">&laquo;</a></li>
+                    {% else %}
+                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                    {% endif %}
+                    {% for num in livres.paginator.page_range %}
+                    {% if livres.number == num %}
+                    <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% elif num >= livres.number|add:"-2" and num <= livres.number|add:"2" %} <li class="page-item"><a
+                            class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                        {% if livres.has_next %}
+                        <li class="page-item"><a class="page-link"
+                                href="?page={{ livres.next_page_number }}">&raquo;</a></li>
+                        {% else %}
+                        <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                        {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- MODAL COMMANDE -->
+    <div class="modal fade" id="commandeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title">Commander <span id="livreTitre"></span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="commande-message" class="mb-2"></div>
+                    <form id="commandeForm" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="livre_id" id="livre_id">
+                        <input type="text" name="nom" class="form-control mb-2" placeholder="Nom" required>
+                        <input type="text" name="prenom" class="form-control mb-2" placeholder="Prénoms" required>
+                        <input type="tel" name="telephone" class="form-control mb-2" placeholder="Téléphone" required>
+                        <input type="email" name="email" class="form-control mb-2" placeholder="Email" required>
+                        <input type="number" name="quantite" class="form-control mb-3" value="1" min="1" required>
+                        <button type="submit" class="btn btn-primary w-100">Valider la commande</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="custom-footer py-3">
+        <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <p class="mb-2 mb-md-0">&copy; 2025 Becken De Gnaman-Dies. Tous droits réservés.</p>
+            <ul class="list-inline mb-2 mb-md-0">
+                <li class="list-inline-item"><a href="{% url 'home' %}"
+                        class="text-white text-decoration-none">Accueil</a></li>
+                <li class="list-inline-item"><a href="{% url 'books' %}"
+                        class="text-white text-decoration-none">Livres</a></li>
+                <li class="list-inline-item"><a href="{% url 'citations' %}"
+                        class="text-white text-decoration-none">Citations</a></li>
+                <li class="list-inline-item"><a href="{% url 'contacts' %}"
+                        class="text-white text-decoration-none">Contact</a></li>
+            </ul>
+            <form class="d-flex" style="gap: 8px;" method="POST" action="{% url 'newsletter' %}">
+                {% csrf_token %}
+                <input type="email" name="email" class="form-control form-control-sm" placeholder="Votre email"
+                    required>
+                <button class="btn btn-warning btn-sm text-dark">S’abonner</button>
+            </form>
+        </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleBio() {
+            const bioShort = document.getElementById('bio-short');
+            const bioFull = document.getElementById('bio-full');
+            const btn = document.getElementById('toggleBioBtn');
+            if (bioFull.classList.contains('d-none')) {
+                bioShort.classList.add('d-none');
+                bioFull.classList.remove('d-none');
+                btn.textContent = 'Réduire';
+            } else {
+                bioShort.classList.remove('d-none');
+                bioFull.classList.add('d-none');
+                btn.textContent = 'Lire la suite';
+            }
+        }
+
+        function toggleResume(button) {
+            const resume = button.previousElementSibling;
+            resume.classList.toggle('expand');
+            button.textContent = resume.classList.contains('expand') ? 'Voir moins' : 'Voir plus';
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const modal = new bootstrap.Modal(document.getElementById('commandeModal'));
+            const form = document.getElementById('commandeForm');
+            const messageDiv = document.getElementById('commande-message');
+            const livreIdInput = document.getElementById('livre_id');
+            const livreTitre = document.getElementById('livreTitre');
+
+            document.querySelectorAll('.btn-commander').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    livreIdInput.value = this.getAttribute('data-livre-id');
+                    livreTitre.textContent = this.getAttribute('data-livre-titre');
+                    modal.show();
+                });
+            });
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                fetch("", {
+                    method: "POST",
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                    },
+                    body: formData
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        messageDiv.textContent = data.message;
+                        messageDiv.className = data.success ? "text-success" : "text-danger";
+                        if (data.success) {
+                            form.reset();
+                            setTimeout(() => {
+                                modal.hide();
+                                messageDiv.textContent = '';
+                            }, 3000);
+                        }
+                    });
+            });
+        });
+    </script>
+</body>
+
+</html>

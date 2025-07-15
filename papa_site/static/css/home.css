@@ -1,0 +1,248 @@
+/* ========== GÉNÉRAL ========== */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9 !important; /* Blanc cassé */
+    color: #212529;
+    transition: background-color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6,
+.btn,
+blockquote, .citation, .contenu {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    font-style: italic;
+}
+
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* ========== TRANSITIONS GLOBALES ========== */
+a, .btn, .card-bio, .box-citation, .navbar a {
+    transition: all 0.3s ease-in-out;
+}
+
+/* ========== NAVBAR ========== */
+.navbar-custom {
+    background-color: #28a745 !important; /* Vert émeraude */
+}
+
+.navbar a {
+    color: white !important;
+    font-weight: 500;
+}
+
+.nav-link.active {
+    color: #f9f9f9 !important;
+    font-weight: bold;
+}
+
+/* ========== HERO ========== */
+
+/* Animation fade-in */
+@keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeInUp 1.2s ease-out;
+  }
+  
+  /* Mise en forme du texte principal */
+  .welcome-hero-text {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    background: linear-gradient(90deg, #388e3c, #00796b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Texte secondaire */
+  .welcome-subtext {
+    background-color: rgba(0, 123, 255, 0.05);
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    font-size: 1.05rem;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+
+/* ========== CAROUSEL ========== */
+.rounded-carousel {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+}
+
+.carousel-item img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    display: block;
+}
+
+.carousel-caption p {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 10px 20px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: #fff;
+    display: inline-block;
+}
+
+.carousel-caption {
+    bottom: 20px;
+}
+
+/* ========== SECTIONS CITATION & VIDÉO ========== */
+.box-citation,
+.box-citation-video {
+    background-color: #d2e3fc;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    width: 100%;
+}
+
+.box-citation-video video {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.box-citation:hover,
+.box-citation-video:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.1); /* bleu */
+}
+
+/* ========== BOUTONS ========== */
+.btn-dark,
+.btn-text-black {
+    background: #007bff !important; /* Bleu royal */
+    color: white !important;
+    border: none;
+    font-weight: 600;
+}
+
+.btn-dark:hover,
+.btn-text-black:hover {
+    background: #0056b3 !important;
+    color: #fff !important;
+}
+
+/* ========== BIOGRAPHIE ========== */
+.card-section {
+    background-color: #e6ffee !important;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+#toggleBioBtn {
+    transition: all 0.3s ease;
+    background-color: #007bff;
+    color: white;
+}
+
+#toggleBioBtn:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
+.yellow-box-title h5 {
+    border-left: 5px solid #28a745;
+    padding-left: 12px;
+    color: #003366;
+}
+
+.img-bio {
+    max-height: 320px;
+    max-width: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+}
+
+/* ========== VIDÉOS ========== */
+.video-section iframe,
+.video-section video {
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== FOOTER ========== */
+.custom-footer {
+    background-color: #28a745;
+    color: white;
+}
+
+footer ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+footer ul li {
+    display: inline;
+    margin-left: 15px;
+}
+
+footer ul li:first-child {
+    margin-left: 0;
+}
+
+footer input[type="email"] {
+    max-width: 200px;
+}
+
+footer .btn-warning {
+    background-color: #d4af37;
+    color: white;
+    border: none;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 576px) {
+    .bio-photo-custom {
+        width: 180px;
+        height: 180px;
+    }
+
+    .carousel-image {
+        height: 200px;
+    }
+
+    footer {
+        text-align: center;
+        padding-bottom: 20px;
+    }
+
+    footer form {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    footer ul {
+        margin-top: 10px;
+    }
+}
